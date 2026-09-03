@@ -1,151 +1,521 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MARSON - A GOD</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #ffffff;
-            color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+  <title>MARSON</title>
 
-        .container {
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .header {
-            margin-bottom: 60px;
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .name {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
+    body {
+      background: #080808;
+      color: #f2f2f2;
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0.04em;
+    }
 
-        .tagline {
-            font-size: 18px;
-            color: #666666;
-            font-weight: 300;
-            margin-bottom: 40px;
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+    /* 导航 */
 
-        .social-link {
-            display: inline-block;
-            padding: 14px 24px;
-            text-decoration: none;
-            color: #000000;
-            border: 1px solid #000000;
-            border-radius: 4px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 24px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      mix-blend-mode: difference;
+    }
 
-        .social-link:hover {
-            background-color: #000000;
-            color: #ffffff;
-        }
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+    }
 
-        .social-link span {
-            display: block;
-            font-size: 12px;
-            font-weight: 300;
-            margin-top: 4px;
-            opacity: 0.7;
-        }
+    nav {
+      display: flex;
+      gap: 28px;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
 
-        .footer {
-            margin-top: 80px;
-            font-size: 12px;
-            color: #999999;
-        }
+    nav a {
+      transition: opacity 0.3s;
+    }
 
-        @media (max-width: 600px) {
-            .name {
-                font-size: 36px;
-            }
+    nav a:hover {
+      opacity: 0.45;
+    }
 
-            .tagline {
-                font-size: 16px;
-            }
+    /* 首页 */
 
-            .social-link {
-                font-size: 14px;
-                padding: 12px 20px;
-            }
-        }
-    </style>
+    .hero {
+      height: 100vh;
+      min-height: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-size: clamp(70px, 18vw, 260px);
+      line-height: 0.78;
+      font-weight: 800;
+      letter-spacing: -0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      margin-top: 45px;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .hero-bottom {
+      position: absolute;
+      bottom: 28px;
+      left: 30px;
+      right: 30px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    /* 通用 */
+
+    section {
+      padding: 140px 30px;
+    }
+
+    .section-number {
+      font-size: 10px;
+      opacity: 0.45;
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: clamp(42px, 8vw, 110px);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      margin-bottom: 70px;
+    }
+
+    /* Collection */
+
+    .collection {
+      border-top: 1px solid #333;
+    }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .item {
+      aspect-ratio: 3 / 4;
+      background: #151515;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 35%, #555 0%, #222 25%, #111 60%, #080808 100%);
+      opacity: 0.5;
+      transition: transform 0.7s;
+    }
+
+    .item:hover::before {
+      transform: scale(1.08);
+    }
+
+    .item-info {
+      position: relative;
+      z-index: 2;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .item-info span {
+      display: block;
+      margin-top: 6px;
+      opacity: 0.45;
+    }
+
+    /* About */
+
+    .about {
+      border-top: 1px solid #333;
+    }
+
+    .about-text {
+      max-width: 850px;
+      font-size: clamp(22px, 3.5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .about-small {
+      max-width: 500px;
+      margin-top: 60px;
+      font-size: 12px;
+      line-height: 1.8;
+      opacity: 0.6;
+    }
+
+    /* Archive */
+
+    .archive {
+      border-top: 1px solid #333;
+    }
+
+    .archive-list {
+      border-top: 1px solid #333;
+    }
+
+    .archive-row {
+      padding: 28px 0;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      transition: padding 0.3s;
+    }
+
+    .archive-row:hover {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    /* Contact */
+
+    .contact {
+      min-height: 70vh;
+      border-top: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-links a {
+      font-size: clamp(30px, 6vw, 80px);
+      letter-spacing: -0.04em;
+      transition: opacity 0.3s;
+    }
+
+    .contact-links a:hover {
+      opacity: 0.4;
+    }
+
+    /* Footer */
+
+    footer {
+      border-top: 1px solid #333;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      opacity: 0.45;
+      text-transform: uppercase;
+    }
+
+    /* 手机 */
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 20px;
+      }
+
+      nav {
+        gap: 14px;
+        font-size: 9px;
+      }
+
+      .hero {
+        padding: 20px;
+      }
+
+      .hero-title {
+        font-size: 24vw;
+      }
+
+      .hero-bottom {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+      }
+
+      section {
+        padding: 100px 20px;
+      }
+
+      .collection-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .item {
+        aspect-ratio: 4 / 5;
+      }
+
+      footer {
+        padding: 20px;
+        font-size: 8px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="name">MARSON</div>
-            <div class="tagline">A GOD</div>
+
+  <!-- 导航 -->
+
+  <header>
+    <a href="#home" class="logo">MARSON</a>
+
+    <nav>
+      <a href="#collection">Collection</a>
+      <a href="#archive">Archive</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+
+  <!-- 首页 -->
+
+  <main>
+
+    <section class="hero" id="home">
+
+      <div>
+        <div class="hero-title">MARSON</div>
+
+        <div class="hero-subtitle">
+          A GOD
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <span>Independent Clothing</span>
+        <span>Est. 2024</span>
+      </div>
+
+    </section>
+
+
+    <!-- Collection -->
+
+    <section class="collection" id="collection">
+
+      <div class="section-number">01 / COLLECTION</div>
+
+      <h2 class="section-title">
+        Current<br>
+        Collection
+      </h2>
+
+      <div class="collection-grid">
+
+        <div class="item">
+          <div class="item-info">
+            MARSON 001
+            <span>ARCHIVE TEE</span>
+          </div>
         </div>
 
-        <div class="social-links">
-            <a href="https://m.tb.cn/h.8ocObld?tk=K4EGT5lYo53" class="social-link" target="_blank">
-                闲鱼
-                <span>HU071</span>
-            </a>
-
-            <a href="https://www.douyin.com/user/MS4wNjI2MzI1NTQ1MTU4Nzg=" class="social-link" target="_blank">
-                抖音
-                <span>@MARSONISTHETRUTH</span>
-            </a>
-
-            <a href="https://www.instagram.com/marsonisthetruth/" class="social-link" target="_blank">
-                Instagram
-                <span>@marsonisthetruth</span>
-            </a>
-
-            <a href="https://www.threads.net/@marsonisthetruth" class="social-link" target="_blank">
-                Threads
-                <span>@marsonisthetruth</span>
-            </a>
-
-            <a href="https://www.tiktok.com/@marson_x" class="social-link" target="_blank">
-                TikTok
-                <span>@marson_x</span>
-            </a>
-
-            <a href="https://www.youtube.com/@maxx4697" class="social-link" target="_blank">
-                YouTube
-                <span>@maxx4697</span>
-            </a>
-
-            <a href="https://open.spotify.com/user/31gft5acuo77sghzdyf6swaldxvi?si=C5JlJ2osRrCpRT8cLgjx8A&utm_source=copy-link" class="social-link" target="_blank">
-                Spotify
-                <span>MARSON</span>
-            </a>
+        <div class="item">
+          <div class="item-info">
+            MARSON 002
+            <span>FADED HOODIE</span>
+          </div>
         </div>
 
-        <div class="footer">
-            <p>© 2024 MARSON. All rights reserved.</p>
+        <div class="item">
+          <div class="item-info">
+            MARSON 003
+            <span>DENIM SERIES</span>
+          </div>
         </div>
-    </div>
+
+        <div class="item">
+          <div class="item-info">
+            MARSON 004
+            <span>OBJECT 04</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- About -->
+
+    <section class="about" id="about">
+
+      <div class="section-number">02 / ABOUT</div>
+
+      <h2 class="section-title">
+        MARSON
+      </h2>
+
+      <div class="about-text">
+        Clothing is not an answer.
+        It is a question.
+      </div>
+
+      <div class="about-small">
+        MARSON is an independent clothing project exploring
+        identity, culture, memory and contemporary existence
+        through garments and visual language.
+        <br><br>
+        We are interested in what remains after the obvious
+        symbols disappear.
+      </div>
+
+    </section>
+
+
+    <!-- Archive -->
+
+    <section class="archive" id="archive">
+
+      <div class="section-number">03 / ARCHIVE</div>
+
+      <h2 class="section-title">
+        Archive
+      </h2>
+
+      <div class="archive-list">
+
+        <a href="#" class="archive-row">
+          <span>MARSON 2024</span>
+          <span>01</span>
+        </a>
+
+        <a href="#" class="archive-row">
+          <span>OBJECT / 001</span>
+          <span>02</span>
+        </a>
+
+        <a href="#" class="archive-row">
+          <span>OBJECT / 002</span>
+          <span>03</span>
+        </a>
+
+        <a href="#" class="archive-row">
+          <span>ARCHIVE / 2025</span>
+          <span>04</span>
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- Contact -->
+
+    <section class="contact" id="contact">
+
+      <div>
+
+        <div class="section-number">
+          04 / CONTACT
+        </div>
+
+        <h2 class="section-title">
+          Find<br>
+          MARSON
+        </h2>
+
+      </div>
+
+      <div class="contact-links">
+
+        <a href="https://m.tb.cn/h.8ocObld?tk=K4EGT5lYo53" target="_blank">
+          Xiaohongshu ↗
+        </a>
+
+        <a href="https://www.douyin.com/user/MS4wNjI2MzI1NTQ1MTU4Nzg=" target="_blank">
+          Douyin ↗
+        </a>
+
+        <a href="https://www.instagram.com/marsonisthetruth" target="_blank">
+          Instagram ↗
+        </a>
+
+        <a href="https://www.threads.net/@marsonisthetruth" target="_blank">
+          Threads ↗
+        </a>
+
+        <a href="https://www.tiktok.com/@marson_x" target="_blank">
+          TikTok ↗
+        </a>
+
+        <a href="https://www.youtube.com/@maxx4697" target="_blank">
+          YouTube ↗
+        </a>
+
+        <a href="https://open.spotify.com/user/31gft5acuo77sghzdyf6swaldxvi?si=C5JlJ2osRrCpRT8cLgjx8A&utm_source=copy-link" target="_blank">
+          Spotify ↗
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- 页脚 -->
+
+  <footer>
+
+    <span>© 2024 MARSON</span>
+
+    <span>
+      ALL RIGHTS RESERVED
+    </span>
+
+  </footer>
+
 </body>
 </html>
