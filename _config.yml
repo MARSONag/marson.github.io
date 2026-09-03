@@ -1,0 +1,22 @@
+# GitHub Pages Configuration
+# This file enables GitHub Pages for this repository
+
+# Build settings
+markdown: kramdown
+theme: jekyll-theme-minimal
+
+# Site settings
+title: MARSON's Personal Website
+description: A minimalist personal website showcasing social media links
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - .github
+  - .gitignore
+  - README.md
+  - LICENSE
