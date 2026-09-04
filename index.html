@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffffff">
+
+<title>MARSON</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#fff;
+    color:#000;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:12px;
+    letter-spacing:.02em;
+}
+
+button{
+    border:0;
+    background:none;
+    color:#000;
+    font:inherit;
+    cursor:pointer;
+}
+
+a{
+    color:#000;
+    text-decoration:none;
+}
+
+/* HEADER */
+
+.header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:56px;
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#fff;
+    z-index:1000;
+    border-bottom:1px solid #eee;
+}
+
+.logo{
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:.12em;
+}
+
+.info-button{
+    font-size:17px;
+    line-height:1;
+}
+
+.info-button:hover,
+.close:hover,
+.year:hover,
+.social-link:hover{
+    opacity:.45;
+}
+
+/* YEAR NAV */
+
+.year-nav{
+    position:fixed;
+    top:56px;
+    left:0;
+    width:100%;
+    height:45px;
+    padding:0 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:30px;
+    background:#fff;
+    border-bottom:1px solid #eee;
+    z-index:900;
+    overflow-x:auto;
+    scrollbar-width:none;
+}
+
+.year-nav::-webkit-scrollbar{
+    display:none;
+}
+
+.year{
+    flex:0 0 auto;
+    font-size:11px;
+}
+
+.year.active{
+    text-decoration:underline;
+    text-underline-offset:4px;
+}
+
+/* MAIN */
+
+main{
+    padding-top:101px;
+}
+
+.year-page{
+    display:none;
+    padding:20px;
+}
+
+.year-page.active{
+    display:block;
+}
+
+.year-heading{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.archive{
+    font-size:10px;
+    opacity:.45;
+}
+
+/* PRODUCT LINE */
+
+.product-line{
+    margin-bottom:60px;
+}
+
+.line-name{
+    font-size:10px;
+    margin-bottom:12px;
+    opacity:.5;
+}
+
+/* PRODUCT GRID */
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.product{
+    cursor:pointer;
+}
+
+.product-image{
+    width:100%;
+    aspect-ratio:3/4;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#aaa;
+    font-size:9px;
+    overflow:hidden;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.product-code{
+    margin-top:8px;
+    font-size:10px;
+}
+
+.product-year{
+    margin-top:3px;
+    font-size:9px;
+    opacity:.4;
+}
+
+/* OVERLAY */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:#fff;
+    z-index:2000;
+    display:none;
+    overflow-y:auto;
+}
+
+.overlay.open{
+    display:block;
+}
+
+.overlay-header{
+    height:56px;
+    padding:0 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #eee;
+}
+
+.close{
+    font-size:10px;
+}
+
+/* PRODUCT DETAIL */
+
+.product-detail{
+    min-height:calc(100vh - 56px);
+    padding:20px;
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:25px;
+}
+
+.detail-image{
+    background:#f2f2f2;
+    min-height:75vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#aaa;
+    font-size:9px;
+}
+
+.detail-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.detail-info{
+    padding-top:5px;
+}
+
+.detail-code{
+    font-size:14px;
+    margin-bottom:14px;
+}
+
+.detail-meta{
+    font-size:10px;
+    line-height:1.8;
+    opacity:.55;
+}
+
+.detail-description{
+    margin-top:45px;
+    font-size:10px;
+    line-height:1.8;
+    max-width:320px;
+}
+
+/* INFORMATION */
+
+.info-content{
+    padding:65px 20px 100px;
+    max-width:700px;
+}
+
+.info-title{
+    font-size:30px;
+    letter-spacing:.08em;
+    margin-bottom:70px;
+}
+
+.info-section{
+    margin-bottom:55px;
+}
+
+.info-label{
+    font-size:9px;
+    opacity:.4;
+    margin-bottom:17px;
+}
+
+.social-list{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.social-link{
+    font-size:12px;
+    line-height:2.15;
+}
+
+.email{
+    font-size:12px;
+}
+
+/* FOOTER */
+
+.footer{
+    padding:80px 20px 25px;
+    display:flex;
+    justify-content:space-between;
+    font-size:9px;
+    opacity:.4;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .header{
+        height:52px;
+        padding:0 15px;
+    }
+
+    .year-nav{
+        top:52px;
+        height:42px;
+        justify-content:flex-start;
+        padding:0 15px;
+        gap:23px;
+    }
+
+    main{
+        padding-top:94px;
+    }
+
+    .year-page{
+        padding:15px;
+    }
+
+    .product-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:9px;
+    }
+
+    .product-line{
+        margin-bottom:45px;
+    }
+
+    .product-code{
+        margin-top:6px;
+        font-size:9px;
+    }
+
+    .product-year{
+        font-size:8px;
+    }
+
+    .product-detail{
+        display:block;
+        padding:15px;
+    }
+
+    .detail-image{
+        min-height:65vh;
+    }
+
+    .detail-info{
+        padding:30px 0 50px;
+    }
+
+    .info-content{
+        padding:50px 15px 80px;
+    }
+
+    .info-title{
+        font-size:26px;
+        margin-bottom:55px;
+    }
+
+    .footer{
+        padding:60px 15px 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <a href="#" class="logo" onclick="home(event)">
+        MARSON
+    </a>
+
+    <button
+        class="info-button"
+        onclick="openInfo()">
+        ⓘ
+    </button>
+
+</header>
+
+
+<nav class="year-nav">
+
+    <button class="year active" data-year="2021">2021</button>
+    <button class="year" data-year="2022">2022</button>
+    <button class="year" data-year="2023">2023</button>
+    <button class="year" data-year="2024">2024</button>
+    <button class="year" data-year="2025">2025</button>
+    <button class="year" data-year="2026">2026</button>
+
+</nav>
+
+
+<main id="main"></main>
+
+
+<footer class="footer">
+    <span>MARSON</span>
+    <span>2021—2026</span>
+</footer>
+
+
+<!-- PRODUCT DETAIL -->
+
+<div class="overlay" id="productOverlay">
+
+    <div class="overlay-header">
+
+        <span id="detailHeader">
+            MARSON
+        </span>
+
+        <button
+            class="close"
+            onclick="closeProduct()">
+            CLOSE
+        </button>
+
+    </div>
+
+    <div class="product-detail">
+
+        <div class="detail-image" id="detailImage">
+            PRODUCT IMAGE
+        </div>
+
+        <div class="detail-info">
+
+            <div
+                class="detail-code"
+                id="detailCode">
+            </div>
+
+            <div
+                class="detail-meta"
+                id="detailMeta">
+            </div>
+
+            <div class="detail-description">
+                MARSON ARCHIVE.<br>
+                PRODUCT / OBJECT / GARMENT.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- INFORMATION -->
+
+<div class="overlay" id="infoOverlay">
+
+    <div class="overlay-header">
+
+        <span>MARSON</span>
+
+        <button
+            class="close"
+            onclick="closeInfo()">
+            CLOSE
+        </button>
+
+    </div>
+
+
+    <div class="info-content">
+
+        <div class="info-title">
+            MARSON
+        </div>
+
+
+        <section class="info-section">
+
+            <div class="info-label">
+                SOCIAL
+            </div>
+
+            <div class="social-list">
+
+                <a
+                    class="social-link"
+                    href="https://m.tb.cn/h.8ocObld?tk=K4EGT5lYo53"
+                    target="_blank"
+                    rel="noopener">
+                    闲鱼
+                </a>
+
+                <a
+                    class="social-link"
+                    href="https://www.douyin.com/"
+                    target="_blank"
+                    rel="noopener">
+                    抖音 / MARSONISTHETRUTH
+                </a>
+
+                <a
+                    class="social-link"
+                    href="https://www.instagram.com/marsonisthetruth/"
+                    target="_blank"
+                    rel="noopener">
+                    Instagram / @marsonisthetruth
+                </a>
+
+                <a
+                    class="social-link"
+                    href="https://www.threads.net/@marsonisthetruth"
+                    target="_blank"
+                    rel="noopener">
+                    Threads / @marsonisthetruth
+                </a>
+
+                <a
+                    class="social-link"
+                    href="https://www.tiktok.com/@marson_x"
+                    target="_blank"
+                    rel="noopener">
+                    TikTok / @marson_x
+                </a>
+
+                <a
+                    class="social-link"
+                    href="https://www.youtube.com/@maxx4697"
+                    target="_blank"
+                    rel="noopener">
+                    YouTube / @maxx4697
+                </a>
+
+                <a
+                    class="social-link"
+                    href="https://open.spotify.com/user/31gft5acuo77sghzdyf6swaldxvi?si=C5JlJ2osRrCpRT8cLgjx8A&utm_source=copy-link"
+                    target="_blank"
+                    rel="noopener">
+                    Spotify
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <section class="info-section">
+
+            <div class="info-label">
+                CONTACT
+            </div>
+
+            <a
+                class="email"
+                href="mailto:18957912998mxx@gmail.com">
+                18957912998mxx@gmail.com
+            </a>
+
+        </section>
+
+
+        <section class="info-section">
+
+            <div class="info-label">
+                ARCHIVE
+            </div>
+
+            <div>
+                2021—2026
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==========================
+   BASIC DATA
+========================== */
+
+const years = [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+];
+
+
+/*
+   产品线
+   每条产品线自动生成 01—09
+*/
+
+const productLines = [
+    "TS",
+    "PT",
+    "LS",
+    "HD",
+    "JK",
+    "SH"
+];
+
+
+/* ==========================
+   CREATE PAGES
+========================== */
+
+const main =
+    document.getElementById("main");
+
+
+years.forEach((year,index)=>{
+
+    const page =
+        document.createElement("section");
+
+    page.className =
+        "year-page" +
+        (index === 0 ? " active" : "");
+
+    page.dataset.year = year;
+
+    page.innerHTML = `
+
+        <div class="year-heading">
+
+            <span>${year}</span>
+
+            <span class="archive">
+                MARSON ARCHIVE
+            </span>
+
+        </div>
+
+        <div class="lines"></div>
+
+    `;
+
+    main.appendChild(page);
+
+
+    const lines =
+        page.querySelector(".lines");
+
+
+    productLines.forEach(line=>{
+
+        const productLine =
+            document.createElement("section");
+
+        productLine.className =
+            "product-line";
+
+        productLine.innerHTML = `
+
+            <div class="line-name">
+                ${line}
+            </div>
+
+            <div class="product-grid"></div>
+
+        `;
+
+        lines.appendChild(productLine);
+
+
+        const grid =
+            productLine.querySelector(
+                ".product-grid"
+            );
+
+
+        for(let i=1;i<=9;i++){
+
+            const number =
+                String(i).padStart(2,"0");
+
+            const code =
+                `${line}-${number}`;
+
+
+            const product =
+                document.createElement("div");
+
+            product.className =
+                "product";
+
+
+            product.innerHTML = `
+
+                <div
+                    class="product-image"
+                    data-code="${code}">
+                    PRODUCT IMAGE
+                </div>
+
+                <div class="product-code">
+                    ${code}
+                </div>
+
+                <div class="product-year">
+                    ${year}
+                </div>
+
+            `;
+
+
+            product.onclick = function(){
+
+                openProduct(
+                    year,
+                    line,
+                    number
+                );
+
+            };
+
+
+            grid.appendChild(product);
+
+        }
+
+    });
+
+});
+
+
+/* ==========================
+   YEAR SWITCH
+========================== */
+
+const buttons =
+    document.querySelectorAll(".year");
+
+const pages =
+    document.querySelectorAll(".year-page");
+
+
+buttons.forEach(button=>{
+
+    button.addEventListener(
+        "click",
+        function(){
+
+            const year =
+                this.dataset.year;
+
+
+            buttons.forEach(b=>{
+                b.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+
+            pages.forEach(page=>{
+
+                page.classList.toggle(
+                    "active",
+                    page.dataset.year === year
+                );
+
+            });
+
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        }
+    );
+
+});
+
+
+/* ==========================
+   PRODUCT
+========================== */
+
+function openProduct(
+    year,
+    line,
+    number
+){
+
+    const code =
+        `${line}-${number}`;
+
+
+    document.getElementById(
+        "detailHeader"
+    ).textContent =
+        `MARSON / ${code}`;
+
+
+    document.getElementById(
+        "detailCode"
+    ).textContent =
+        code;
+
+
+    document.getElementById(
+        "detailMeta"
+    ).innerHTML = `
+        YEAR&nbsp;&nbsp;&nbsp;&nbsp;${year}<br>
+        CATEGORY&nbsp;&nbsp;&nbsp;&nbsp;${line}<br>
+        NUMBER&nbsp;&nbsp;&nbsp;&nbsp;${number}
+    `;
+
+
+    document.getElementById(
+        "detailImage"
+    ).innerHTML =
+        "PRODUCT IMAGE";
+
+
+    document.getElementById(
+        "productOverlay"
+    ).classList.add("open");
+
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+
+function closeProduct(){
+
+    document.getElementById(
+        "productOverlay"
+    ).classList.remove("open");
+
+
+    document.body.style.overflow =
+        "";
+}
+
+
+/* ==========================
+   INFORMATION
+========================== */
+
+function openInfo(){
+
+    document.getElementById(
+        "infoOverlay"
+    ).classList.add("open");
+
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+
+function closeInfo(){
+
+    document.getElementById(
+        "infoOverlay"
+    ).classList.remove("open");
+
+
+    document.body.style.overflow =
+        "";
+}
+
+
+/* ==========================
+   HOME
+========================== */
+
+function home(event){
+
+    event.preventDefault();
+
+    closeProduct();
+    closeInfo();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* ==========================
+   ESC
+========================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            closeProduct();
+            closeInfo();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
