@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>MARSON</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #111;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 58px;
+    background: #fff;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+
+.logo {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.info-button {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: none;
+    padding: 0;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* =========================
+   YEAR NAVIGATION
+========================= */
+
+.year-nav {
+    position: fixed;
+    top: 58px;
+    left: 0;
+    width: 100%;
+    height: 42px;
+    background: #fff;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    border-bottom: 1px solid #eee;
+}
+
+.year-button {
+    border: 0;
+    background: none;
+    padding: 0;
+    font-size: 12px;
+    color: #999;
+    cursor: pointer;
+}
+
+.year-button.active {
+    color: #111;
+}
+
+/* =========================
+   CATEGORY NAVIGATION
+========================= */
+
+.category-nav {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    border-bottom: 1px solid #eee;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.category-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.category-button {
+    border: 0;
+    background: none;
+    padding: 0;
+    font-size: 10px;
+    color: #999;
+    cursor: pointer;
+}
+
+.category-button.active {
+    color: #111;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    padding-top: 140px;
+    min-height: 100vh;
+}
+
+.archive-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #eee;
+}
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+.product-card {
+    background: #fff;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+}
+
+/*
+   SH-01 专用裁切
+   图片底部 1/4 隐藏
+*/
+.product-image.sh01-crop {
+    align-items: flex-start;
+}
+
+.product-image.sh01-crop img {
+    width: 100%;
+    height: 133.3333%;
+    object-fit: contain;
+    object-position: center top;
+}
+
+/* =========================
+   PRODUCT INFO
+========================= */
+
+.product-info {
+    padding: 9px 10px 12px;
+    background: #fff;
+}
+
+.product-code {
+    font-size: 10px;
+    color: #777;
+    margin-bottom: 3px;
+}
+
+.product-name {
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+/* =========================
+   INFO OVERLAY
+========================= */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.97);
+    z-index: 2000;
+    display: none;
+    overflow-y: auto;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.overlay-header {
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    border-bottom: 1px solid #eee;
+}
+
+.overlay-title {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.close-button {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: none;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.overlay-content {
+    padding: 35px 20px 60px;
+}
+
+/* =========================
+   SOCIAL
+========================= */
+
+.social-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.social-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: #111;
+}
+
+.social-platform {
+    font-size: 11px;
+}
+
+.social-name {
+    font-size: 11px;
+    color: #777;
+}
+
+/* =========================
+   PERSONAL ARCHIVE
+========================= */
+
+.archive-text {
+    font-size: 12px;
+    line-height: 1.8;
+    color: #222;
+}
+
+.archive-text p {
+    margin: 0 0 20px;
+}
+
+/* =========================
+   DETAIL OVERLAY
+========================= */
+
+.detail-overlay {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    z-index: 3000;
+    display: none;
+    overflow: hidden;
+}
+
+.detail-overlay.active {
+    display: block;
+}
+
+.detail-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 58px;
+    background: #fff;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+
+.detail-code {
+    font-size: 11px;
+    color: #777;
+}
+
+.detail-close {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* =========================
+   DETAIL SLIDER
+========================= */
+
+.detail-slider {
+    position: absolute;
+    top: 58px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 145px);
+    background: #fff;
+    overflow: hidden;
+    touch-action: pan-y;
+}
+
+.detail-track {
+    height: 100%;
+    display: flex;
+    transition: transform 0.25s ease;
+}
+
+.detail-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* 普通商品图片 */
+
+.detail-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+}
+
+/*
+   SH-01 详情页专用
+   底部 1/4 隐藏
+   鞋子保持水平居中
+*/
+
+.detail-slide.sh01-detail {
+    align-items: flex-start;
+}
+
+.detail-slide.sh01-detail img {
+    width: 100%;
+    height: 133.3333%;
+    object-fit: contain;
+    object-position: center top;
+}
+
+/* =========================
+   DETAIL BOTTOM
+========================= */
+
+.detail-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 20;
+    padding: 10px 18px 18px;
+}
+
+.detail-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 12px;
+}
+
+.detail-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+.detail-dot.active {
+    background: #111;
+}
+
+.detail-name {
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.detail-status {
+    font-size: 10px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.detail-year {
+    font-size: 10px;
+    color: #777;
+    line-height: 1.5;
+}
+
+/* =========================
+   DETAIL ARROWS
+========================= */
+
+.detail-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 60px;
+    border: 0;
+    background: transparent;
+    font-size: 24px;
+    z-index: 30;
+    cursor: pointer;
+    color: #111;
+}
+
+.detail-arrow.prev {
+    left: 4px;
+}
+
+.detail-arrow.next {
+    right: 4px;
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 700px) {
+
+    .archive-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .year-nav {
+        gap: 32px;
+    }
+
+    .category-nav {
+        gap: 25px;
+    }
+
+    .product-info {
+        padding: 11px 12px 14px;
+    }
+
+    .product-name {
+        font-size: 12px;
+    }
+
+    .detail-slider {
+        height: calc(100vh - 150px);
+    }
+}
+
+/* =========================
+   NO IMAGE
+========================= */
+
+img[src=""],
+img:not([src]) {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+    <div class="logo">MARSON</div>
+
+    <button class="info-button" onclick="openInfo()">
+        ⓘ
+    </button>
+</header>
+
+<!-- =========================
+     YEAR NAV
+========================= -->
+
+<nav class="year-nav" id="yearNav"></nav>
+
+<!-- =========================
+     CATEGORY NAV
+========================= -->
+
+<nav class="category-nav" id="categoryNav"></nav>
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+    <div class="archive-grid" id="archiveGrid"></div>
+</main>
+
+<!-- =========================
+     INFO OVERLAY
+========================= -->
+
+<div class="overlay" id="infoOverlay">
+
+    <div class="overlay-header">
+        <div class="overlay-title">INFO</div>
+
+        <button class="close-button" onclick="closeInfo()">
+            ×
+        </button>
+    </div>
+
+    <div class="overlay-content">
+
+        <div class="social-list">
+
+            <a
+                class="social-item"
+                href="https://m.tb.cn/h.8ocObld?tk=K4EGT5lYo53"
+                target="_blank"
+            >
+                <span class="social-platform">闲鱼</span>
+                <span class="social-name">MARSON</span>
+            </a>
+
+            <a
+                class="social-item"
+                href="https://www.douyin.com/"
+                target="_blank"
+            >
+                <span class="social-platform">抖音</span>
+                <span class="social-name">MARSONISTHETRUTH</span>
+            </a>
+
+            <a
+                class="social-item"
+                href="https://www.instagram.com/marsonisthetruth/"
+                target="_blank"
+            >
+                <span class="social-platform">Instagram</span>
+                <span class="social-name">marsonisthetruth</span>
+            </a>
+
+            <a
+                class="social-item"
+                href="https://www.threads.net/@marsonisthetruth"
+                target="_blank"
+            >
+                <span class="social-platform">Threads</span>
+                <span class="social-name">marsonisthetruth</span>
+            </a>
+
+            <a
+                class="social-item"
+                href="https://www.tiktok.com/@marson_x"
+                target="_blank"
+            >
+                <span class="social-platform">TikTok</span>
+                <span class="social-name">@marson_x</span>
+            </a>
+
+            <a
+                class="social-item"
+                href="https://www.youtube.com/@maxx4697"
+                target="_blank"
+            >
+                <span class="social-platform">YouTube</span>
+                <span class="social-name">@maxx4697</span>
+            </a>
+
+            <a
+                class="social-item"
+                href="https://open.spotify.com/user/31gft5acuo77sghzdyf6swaldxvi?si=C5JlJ2osRrCpRT8cLgjx8A&utm_source=copy-link"
+                target="_blank"
+            >
+                <span class="social-platform">Spotify</span>
+                <span class="social-name">MARSON</span>
+            </a>
+
+            <a
+                class="social-item"
+                href="mailto:18957912998mxx@gmail.com"
+            >
+                <span class="social-platform">Email</span>
+                <span class="social-name">
+                    18957912998mxx@gmail.com
+                </span>
+            </a>
+
+        </div>
+
+        <div style="height:55px;"></div>
+
+        <div class="archive-text">
+
+            <p>
+                MARSON Personal Archive.
+            </p>
+
+            <p>
+                Since 2021. A visual record of pieces acquired and collected by MARSON.
+            </p>
+
+            <p>
+                MARSON 个人档案馆。始于 2021 年。记录 MARSON 所购入与收藏的各类单品。
+            </p>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- =========================
+     DETAIL OVERLAY
+========================= -->
+
+<div class="detail-overlay" id="detailOverlay">
+
+    <div class="detail-header">
+
+        <div class="detail-code" id="detailCode">
+            2021/SH-01
+        </div>
+
+        <button
+            class="detail-close"
+            onclick="closeDetail()"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <div
+        class="detail-slider"
+        id="detailSlider"
+    >
+
+        <div
+            class="detail-track"
+            id="detailTrack"
+        ></div>
+
+        <button
+            class="detail-arrow prev"
+            onclick="previousImage()"
+        >
+            ‹
+        </button>
+
+        <button
+            class="detail-arrow next"
+            onclick="nextImage()"
+        >
+            ›
+        </button>
+
+    </div>
+
+    <div class="detail-bottom">
+
+        <div
+            class="detail-dots"
+            id="detailDots"
+        ></div>
+
+        <div
+            class="detail-name"
+            id="detailName"
+        ></div>
+
+        <div
+            class="detail-status"
+            id="detailStatus"
+        ></div>
+
+        <div
+            class="detail-year"
+            id="detailYear"
+        ></div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================
+   BASIC DATA
+========================= */
+
+const years = [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+];
+
+const categories = [
+    "TS",
+    "SH",
+    "HD",
+    "JK",
+    "SN",
+    "AC",
+    "VT",
+    "PT",
+    "NF"
+];
+
+let currentYear = 2021;
+let currentCategory = "TS";
+
+let currentProduct = null;
+let currentImageIndex = 0;
+
+
+/* =========================
+   PRODUCT DETAILS
+========================= */
+
+const productDetails = {
+
+    "2021/SH-01": {
+
+        name: "Nike Kyrie Low 4 EP",
+
+        status: "状态：丢失",
+
+        year: "2021年春，在当地第一百货nike自主挑选",
+
+        images: [
+
+            "images/2021/IMG_7316.jpeg",
+
+            "images/2021/IMG_7318.jpeg",
+
+            "images/2021/IMG_7319.jpeg",
+
+            "images/2021/IMG_7320.jpeg"
+
+        ]
+
+    }
+
+};
+
+
+/* =========================
+   YEAR NAVIGATION
+========================= */
+
+function renderYears() {
+
+    const yearNav =
+        document.getElementById("yearNav");
+
+    yearNav.innerHTML = "";
+
+    years.forEach(year => {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "year-button" +
+            (year === currentYear
+                ? " active"
+                : "");
+
+        button.textContent = year;
+
+        button.onclick = () => {
+
+            currentYear = year;
+
+            renderYears();
+
+            renderCategories();
+
+            renderProducts();
+
+        };
+
+        yearNav.appendChild(button);
+
+    });
+
+}
+
+
+/* =========================
+   CATEGORY NAVIGATION
+========================= */
+
+function renderCategories() {
+
+    const categoryNav =
+        document.getElementById("categoryNav");
+
+    categoryNav.innerHTML = "";
+
+    categories.forEach(category => {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "category-button" +
+            (category === currentCategory
+                ? " active"
+                : "");
+
+        button.textContent = category;
+
+        button.onclick = () => {
+
+            currentCategory = category;
+
+            renderCategories();
+
+            renderProducts();
+
+        };
+
+        categoryNav.appendChild(button);
+
+    });
+
+}
+
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+function renderProducts() {
+
+    const grid =
+        document.getElementById("archiveGrid");
+
+    grid.innerHTML = "";
+
+    for (let i = 1; i <= 6; i++) {
+
+        const code =
+            String(i).padStart(2, "0");
+
+        const productKey =
+            currentYear +
+            "/" +
+            currentCategory +
+            "-" +
+            code;
+
+        const detail =
+            productDetails[productKey];
+
+        const card =
+            document.createElement("div");
+
+        card.className = "product-card";
+
+        card.onclick = () => {
+
+            openDetail(productKey);
+
+        };
+
+
+        const imageBox =
+            document.createElement("div");
+
+        imageBox.className =
+            "product-image";
+
+
+        /*
+           SH-01 专用
+        */
+
+        if (productKey === "2021/SH-01") {
+
+            imageBox.classList.add(
+                "sh01-crop"
+            );
+
+        }
+
+
+        const image =
+            document.createElement("img");
+
+
+        if (
+            detail &&
+            detail.images &&
+            detail.images.length
+        ) {
+
+            image.src =
+                detail.images[0];
+
+        } else {
+
+            image.src =
+                "images/" +
+                currentYear +
+                "/" +
+                currentCategory +
+                "-" +
+                code +
+                ".jpg";
+
+        }
+
+
+        image.onerror = function() {
+
+            this.style.display = "none";
+
+        };
+
+
+        imageBox.appendChild(image);
+
+
+        const info =
+            document.createElement("div");
+
+        info.className =
+            "product-info";
+
+
+        const codeElement =
+            document.createElement("div");
+
+        codeElement.className =
+            "product-code";
+
+        codeElement.textContent =
+            currentCategory +
+            "-" +
+            code;
+
+
+        const nameElement =
+            document.createElement("div");
+
+        nameElement.className =
+            "product-name";
+
+
+        if (detail) {
+
+            nameElement.textContent =
+                detail.name;
+
+        } else {
+
+            nameElement.textContent =
+                currentCategory +
+                "-" +
+                code;
+
+        }
+
+
+        info.appendChild(codeElement);
+
+        info.appendChild(nameElement);
+
+        card.appendChild(imageBox);
+
+        card.appendChild(info);
+
+        grid.appendChild(card);
+
+    }
+
+}
+
+
+/* =========================
+   OPEN DETAIL
+========================= */
+
+function openDetail(productKey) {
+
+    currentProduct =
+        productKey;
+
+    currentImageIndex = 0;
+
+    const overlay =
+        document.getElementById(
+            "detailOverlay"
+        );
+
+    const detail =
+        productDetails[productKey];
+
+
+    document.getElementById(
+        "detailCode"
+    ).textContent =
+        productKey;
+
+
+    if (detail) {
+
+        document.getElementById(
+            "detailName"
+        ).textContent =
+            detail.name;
+
+
+        document.getElementById(
+            "detailStatus"
+        ).textContent =
+            detail.status || "";
+
+
+        document.getElementById(
+            "detailYear"
+        ).textContent =
+            detail.year || "";
+
+
+        renderDetailImages(
+            detail.images
+        );
+
+    } else {
+
+        document.getElementById(
+            "detailName"
+        ).textContent =
+            productKey;
+
+
+        document.getElementById(
+            "detailStatus"
+        ).textContent =
+            "";
+
+
+        document.getElementById(
+            "detailYear"
+        ).textContent =
+            "";
+
+
+        renderDetailImages([
+            "images/" +
+            productKey.split("/")[0] +
+            "/" +
+            productKey.split("/")[1] +
+            ".jpg"
+        ]);
+
+    }
+
+
+    overlay.classList.add("active");
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =========================
+   DETAIL IMAGES
+========================= */
+
+function renderDetailImages(images) {
+
+    const track =
+        document.getElementById(
+            "detailTrack"
+        );
+
+    const dots =
+        document.getElementById(
+            "detailDots"
+        );
+
+
+    track.innerHTML = "";
+
+    dots.innerHTML = "";
+
+
+    images.forEach((image, index) => {
+
+        const slide =
+            document.createElement("div");
+
+        slide.className =
+            "detail-slide";
+
+
+        /*
+           SH-01 四张图全部使用
+           底部 1/4 裁切
+        */
+
+        if (
+            currentProduct ===
+            "2021/SH-01"
+        ) {
+
+            slide.classList.add(
+                "sh01-detail"
+            );
+
+        }
+
+
+        const img =
+            document.createElement("img");
+
+        img.src = image;
+
+
+        img.onerror = function() {
+
+            this.style.display =
+                "none";
+
+        };
+
+
+        slide.appendChild(img);
+
+        track.appendChild(slide);
+
+
+        const dot =
+            document.createElement("div");
+
+        dot.className =
+            "detail-dot" +
+            (index === 0
+                ? " active"
+                : "");
+
+
+        dot.onclick = () => {
+
+            currentImageIndex =
+                index;
+
+            updateSlider();
+
+        };
+
+
+        dots.appendChild(dot);
+
+    });
+
+
+    updateSlider();
+
+}
+
+
+/* =========================
+   SLIDER UPDATE
+========================= */
+
+function updateSlider() {
+
+    const track =
+        document.getElementById(
+            "detailTrack"
+        );
+
+    const dots =
+        document.querySelectorAll(
+            ".detail-dot"
+        );
+
+
+    track.style.transform =
+        "translateX(-" +
+        (currentImageIndex * 100) +
+        "%)";
+
+
+    dots.forEach(
+        (dot, index) => {
+
+            dot.classList.toggle(
+                "active",
+                index ===
+                currentImageIndex
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   NEXT / PREVIOUS
+========================= */
+
+function nextImage() {
+
+    if (!currentProduct) {
+        return;
+    }
+
+    const detail =
+        productDetails[currentProduct];
+
+    if (!detail || !detail.images) {
+        return;
+    }
+
+    if (
+        currentImageIndex <
+        detail.images.length - 1
+    ) {
+
+        currentImageIndex++;
+
+        updateSlider();
+
+    }
+
+}
+
+
+function previousImage() {
+
+    if (!currentProduct) {
+        return;
+    }
+
+    const detail =
+        productDetails[currentProduct];
+
+    if (!detail || !detail.images) {
+        return;
+    }
+
+    if (
+        currentImageIndex > 0
+    ) {
+
+        currentImageIndex--;
+
+        updateSlider();
+
+    }
+
+}
+
+
+/* =========================
+   CLOSE DETAIL
+========================= */
+
+function closeDetail() {
+
+    document
+        .getElementById(
+            "detailOverlay"
+        )
+        .classList.remove("active");
+
+    document.body.style.overflow =
+        "";
+
+    currentProduct = null;
+
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+function openInfo() {
+
+    document
+        .getElementById(
+            "infoOverlay"
+        )
+        .classList.add("active");
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function closeInfo() {
+
+    document
+        .getElementById(
+            "infoOverlay"
+        )
+        .classList.remove("active");
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =========================
+   KEYBOARD
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const detail =
+            document.getElementById(
+                "detailOverlay"
+            );
+
+        if (
+            !detail.classList.contains(
+                "active"
+            )
+        ) {
+            return;
+        }
+
+
+        if (
+            event.key === "ArrowRight"
+        ) {
+
+            nextImage();
+
+        }
+
+
+        if (
+            event.key === "ArrowLeft"
+        ) {
+
+            previousImage();
+
+        }
+
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeDetail();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   TOUCH SWIPE
+========================= */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+
+const slider =
+    document.getElementById(
+        "detailSlider"
+    );
+
+
+slider.addEventListener(
+    "touchstart",
+    function(event) {
+
+        touchStartX =
+            event.changedTouches[0].screenX;
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+slider.addEventListener(
+    "touchend",
+    function(event) {
+
+        touchEndX =
+            event.changedTouches[0].screenX;
+
+        const distance =
+            touchEndX -
+            touchStartX;
+
+
+        if (
+            Math.abs(distance) < 45
+        ) {
+            return;
+        }
+
+
+        if (distance < 0) {
+
+            nextImage();
+
+        } else {
+
+            previousImage();
+
+        }
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+renderYears();
+
+renderCategories();
+
+renderProducts();
+
+</script>
+
+</body>
+</html>
